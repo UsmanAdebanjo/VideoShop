@@ -1,0 +1,37 @@
+﻿@model IEnumerable<VideoShop.Models.Customer>
+
+
+<h2>Customers</h2>
+@Html.ActionLink("New Customer","CustomerForm","",new { @class = "btn btn-primary" })
+<br />
+@if (Convert.ToInt16(Model.Count()) == 0)
+{
+    <h2>No Customers in DB</h2>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>MembershipType</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var customer in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(customer.Name,"Edit",new {id=customer.Id })
+                    </td>
+                    <td>@customer.MembershipType.Name</td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id=customer.Id})
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}

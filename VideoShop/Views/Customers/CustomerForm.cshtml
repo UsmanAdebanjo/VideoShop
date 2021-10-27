@@ -1,0 +1,50 @@
+﻿@model VideoShop.ViewModels.CustomerViewModel
+
+@if (Model.Customer.Id == 0)
+{
+    <h4>New Customer</h4>
+}
+else
+{
+    <h4>Edit Customer</h4>
+}
+
+@using (Html.BeginForm("Create", "Customers"))
+{
+    @Html.AntiForgeryToken()
+
+
+    <hr />
+    @Html.ValidationSummary(true, "Fill all required boxes", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customer.Name)
+        @Html.TextBoxFor(c => c.Customer.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customer.Birtdate)
+        @Html.TextBoxFor(c => c.Customer.Birtdate, "{0: d MMM yyyy }", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c=>c.Customer.Birtdate)
+    </div>
+    <div class="checkbox">
+        <label>
+
+            @Html.CheckBoxFor(c => c.Customer.IsSubscibedToNewsLetter)Subscribed To News Letter?
+
+        </label>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customer.MembershipTypeId)
+        @Html.DropDownListFor(c => c.Customer.MembershipTypeId, new SelectList(Model.MembershipType, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c=>c.Customer.MembershipTypeId)
+    </div>
+    @Html.HiddenFor(c => c.Customer.Id)
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
