@@ -27,7 +27,16 @@ namespace VideoShop.Controllers
         public ActionResult Index()
         {
             var customers=_context.Customers.Include(c => c.MembershipType).ToList();
-            return View(customers);
+
+            if (User.IsInRole(Models.RoleName.CanManageMovies))
+            {
+                return View("Index",customers);
+            }
+            else
+            {
+                return View("Nonadmin",customers);
+            }
+            
         }
 
         public ActionResult CustomerForm(Customer customer)
@@ -76,6 +85,7 @@ namespace VideoShop.Controllers
 
         }
 
+        [Authorize(Roles = "CanManageMovies")]
         public ActionResult Edit(int id)
         {
             var customer=_context.Customers.SingleOrDefault(c => c.Id == id);
