@@ -12,7 +12,7 @@ namespace VideoShop.Controllers
 {
     public class MoviesController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public MoviesController()
         {
             _context = new ApplicationDbContext();
@@ -20,8 +20,9 @@ namespace VideoShop.Controllers
         // GET: Movies
         public ActionResult Index()
         {
-            var movies=_context.Movies.Include(m => m.Genre).ToList();
-            return View(movies);
+            if (User.IsInRole("CanManageMovies"))
+                return View("List");
+            return View("ReadOnlyList");
         }
 
         public ActionResult Detail(int id)
@@ -29,6 +30,7 @@ namespace VideoShop.Controllers
             var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
             return View();
         }
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
             var getMovieInDb = _context.Movies.Single(m=>m.Id==id);
@@ -43,6 +45,7 @@ namespace VideoShop.Controllers
             return View("MovieForm",movieModel);
         }
 
+        [Authorize(Roles ="CanManageMovies")]
         public ActionResult MovieForm(Movie movie)
         {
             var genre =_context.Genres.ToList();
@@ -95,6 +98,7 @@ namespace VideoShop.Controllers
 
         }
 
+        [Authorize(Roles =RoleName.CanManageMovies)]
         [HttpDelete]
         public ActionResult Delete(int id)
         {

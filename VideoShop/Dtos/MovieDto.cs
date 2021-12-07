@@ -12,6 +12,8 @@ namespace VideoShop.Dtos
         public byte GenreId { get; set; }
         public DateTime? DateAdded { get; set; }
         public DateTime? DateReleased { get; set; }
-        //public Genre Genre { get; set; }
+        public GenreDto Genre { get; set; }
+        public int NumberInStock { get; set; }
+        public int AvailableInStock { get; set; }
     }
 }

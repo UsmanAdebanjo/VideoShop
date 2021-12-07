@@ -13,7 +13,8 @@ namespace VideoShop.Dtos
 
         public DateTime? Birtdate { get; set; }
 
-       // public MembershipTypeDto MembershipTypeDto { get; set; }
+        public MembershipTypeDto MembershipType { get; set; }
+
 
         //[Min18Years]
 

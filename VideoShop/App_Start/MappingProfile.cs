@@ -21,7 +21,9 @@ namespace VideoShop.App_Start
             
 
             Mapper.CreateMap<CustomerDto, Customer>();
+            Mapper.CreateMap<MembershipTypeDto, MembershipType>();
             Mapper.CreateMap<MovieDto, Movie>();
+            Mapper.CreateMap<GenreDto, Genre>();
 
         }
     }

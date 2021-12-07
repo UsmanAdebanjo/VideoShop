@@ -7,35 +7,43 @@ using System.Web.Http;
 using VideoShop.Models;
 using VideoShop.Dtos;
 using AutoMapper;
+using System.Data.Entity;
 
 namespace VideoShop.Controllers.Api
 {
     public class CustomersController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public CustomersController()
         {
             _context = new ApplicationDbContext();
         }
 
-        public IHttpActionResult GetCustomers()
+        public IHttpActionResult GetCustomers(string query=null)
         {
-            var allCustomers = _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var allCustomers = _context.Customers.Include(c => c.MembershipType);
+
             if (allCustomers == null)
                 return NotFound();
-            else
-                return Ok(allCustomers);
+
+            if (!String.IsNullOrEmpty(query))
+                allCustomers = allCustomers.Where(c => c.Name.Contains(query));
+
+            var customersDto = allCustomers
+                .ToList().Select(Mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customersDto);
         }
 
         public IHttpActionResult GetCustomer(int id)
         {
             var getCustomer = _context.Customers.Single(c => c.Id == id);
-            
-            if (getCustomer != null)
-                return Ok(Mapper.Map<Customer, CustomerDto>(getCustomer));
-            else
+
+            if (getCustomer == null)
                 return NotFound();
+            else
+                return Ok(Mapper.Map<Customer, CustomerDto>(getCustomer));
         }
 
 
@@ -86,7 +94,7 @@ namespace VideoShop.Controllers.Api
             {
                 _context.Customers.Remove(customer);
                 _context.SaveChanges();
-                return Ok("Deleted");
+                return Ok();
             }
         }
     }

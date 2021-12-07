@@ -11,7 +11,7 @@ namespace VideoShop.Controllers
 {
     public class CustomersController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public CustomersController()
         {

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<VideoShop.Models.Movie>
+
+<p>
+    @Html.ActionLink("New Movie", "MovieForm","", new {@class="btn btn-primary" })
+</p>
+<table  id="movies" class=" table table-bordered table-hover">
+    <thead>
+
+        <tr>
+            <th> Name</th>
+            <th>Genre</th>
+        </tr>
+    </thead>
+
+<tbody>
+</tbody>
+
+
+</table>
+
+@section scripts{
+    
+    <script>
+        var table = $(document).ready(function () {
+            $("#movies").DataTable({
+                ajax: {
+                    url: "/api/movies",
+                    dataSrc:""
+                },
+                columns: [
+                    {
+                        data: "name"
+                    },
+                    {
+                        data:"genre.name"
+                    }
+
+                ]
+
+            });
+
+           
+        })
+    </script>
+    }

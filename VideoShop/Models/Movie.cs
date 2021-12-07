@@ -24,5 +24,9 @@ namespace VideoShop.Models
         [Required]
         [Display(Name ="Genre")]
         public byte GenreId { get; set; }
+
+        public int NumberInStock { get; set; }
+
+        public int AvailabileInStock { get; set; }
     }
 }
