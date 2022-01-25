@@ -6,6 +6,7 @@
 # User-specific files
 scripts/
 .js
+.css
 startup.auth.cs
 *.rsuser
 *.suo
